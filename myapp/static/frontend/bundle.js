@@ -42,6 +42,23 @@ var app = (function () {
 		return a != a ? b == b : a !== b || (a && typeof a === 'object') || typeof a === 'function';
 	}
 
+	let src_url_equal_anchor;
+
+	/**
+	 * @param {string} element_src
+	 * @param {string} url
+	 * @returns {boolean}
+	 */
+	function src_url_equal(element_src, url) {
+		if (element_src === url) return true;
+		if (!src_url_equal_anchor) {
+			src_url_equal_anchor = document.createElement('a');
+		}
+		// This is actually faster than doing URL(..).href
+		src_url_equal_anchor.href = url;
+		return element_src === src_url_equal_anchor.href;
+	}
+
 	/** @returns {boolean} */
 	function is_empty(obj) {
 		return Object.keys(obj).length === 0;
@@ -687,60 +704,77 @@ var app = (function () {
 	const file = "src/App.svelte";
 
 	function create_fragment(ctx) {
+		let img;
+		let img_src_value;
+		let img_alt_value;
+		let t0;
 		let main;
 		let h1;
-		let t0;
 		let t1;
 		let t2;
 		let t3;
-		let p;
 		let t4;
+		let p;
+		let t5;
 		let a;
-		let t6;
+		let t7;
 
 		const block = {
 			c: function create() {
+				img = element("img");
+				t0 = space();
 				main = element("main");
 				h1 = element("h1");
-				t0 = text("¡Hola ");
-				t1 = text(/*name*/ ctx[0]);
-				t2 = text("!");
-				t3 = space();
+				t1 = text("¡Hola ");
+				t2 = text(/*name*/ ctx[0]);
+				t3 = text("!");
+				t4 = space();
 				p = element("p");
-				t4 = text("Visit the ");
+				t5 = text("Visit the ");
 				a = element("a");
 				a.textContent = "My Django-Svelte setup for fullstack development";
-				t6 = text(" to learn how to build Django Svelte apps.");
+				t7 = text(" to learn how to build Django Svelte apps.");
+				if (!src_url_equal(img.src, img_src_value = /*src*/ ctx[1])) attr_dev(img, "src", img_src_value);
+				attr_dev(img, "alt", img_alt_value = "" + (/*name*/ ctx[0] + " dances."));
+				add_location(img, file, 4, 0, 69);
 				attr_dev(h1, "class", "svelte-1tky8bj");
-				add_location(h1, file, 5, 1, 46);
+				add_location(h1, file, 7, 1, 113);
 				attr_dev(a, "href", "https://dev.to/besil/my-django-svelte-setup-for-fullstack-development-3an8");
-				add_location(a, file, 6, 14, 83);
-				add_location(p, file, 6, 1, 70);
+				add_location(a, file, 8, 14, 150);
+				add_location(p, file, 8, 1, 137);
 				attr_dev(main, "class", "svelte-1tky8bj");
-				add_location(main, file, 4, 0, 38);
+				add_location(main, file, 6, 0, 105);
 			},
 			l: function claim(nodes) {
 				throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
 			},
 			m: function mount(target, anchor) {
+				insert_dev(target, img, anchor);
+				insert_dev(target, t0, anchor);
 				insert_dev(target, main, anchor);
 				append_dev(main, h1);
-				append_dev(h1, t0);
 				append_dev(h1, t1);
 				append_dev(h1, t2);
-				append_dev(main, t3);
+				append_dev(h1, t3);
+				append_dev(main, t4);
 				append_dev(main, p);
-				append_dev(p, t4);
+				append_dev(p, t5);
 				append_dev(p, a);
-				append_dev(p, t6);
+				append_dev(p, t7);
 			},
 			p: function update(ctx, [dirty]) {
-				if (dirty & /*name*/ 1) set_data_dev(t1, /*name*/ ctx[0]);
+				if (dirty & /*name*/ 1 && img_alt_value !== (img_alt_value = "" + (/*name*/ ctx[0] + " dances."))) {
+					attr_dev(img, "alt", img_alt_value);
+				}
+
+				if (dirty & /*name*/ 1) set_data_dev(t2, /*name*/ ctx[0]);
 			},
 			i: noop,
 			o: noop,
 			d: function destroy(detaching) {
 				if (detaching) {
+					detach_dev(img);
+					detach_dev(t0);
 					detach_dev(main);
 				}
 			}
@@ -760,6 +794,7 @@ var app = (function () {
 	function instance($$self, $$props, $$invalidate) {
 		let { $$slots: slots = {}, $$scope } = $$props;
 		validate_slots('App', slots, []);
+		let src = '/image.gif';
 		let { name } = $$props;
 
 		$$self.$$.on_mount.push(function () {
@@ -778,9 +813,10 @@ var app = (function () {
 			if ('name' in $$props) $$invalidate(0, name = $$props.name);
 		};
 
-		$$self.$capture_state = () => ({ name });
+		$$self.$capture_state = () => ({ src, name });
 
 		$$self.$inject_state = $$props => {
+			if ('src' in $$props) $$invalidate(1, src = $$props.src);
 			if ('name' in $$props) $$invalidate(0, name = $$props.name);
 		};
 
@@ -788,7 +824,7 @@ var app = (function () {
 			$$self.$inject_state($$props.$$inject);
 		}
 
-		return [name];
+		return [name, src];
 	}
 
 	class App extends SvelteComponentDev {

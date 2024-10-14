@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-_uru4fti=r67sd32%kg$fdyl(b$)#+(77ty_4dwflwq16=+m#=
 DEBUG = "DJANGO_DEBUG" in os.environ and os.environ["DJANGO_DEBUG"] == "ON"
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'django-svelte-poetry-fly.fly.dev']
+ALLOWED_HOSTS = ['mexicanbold.com', 'www.mexicanbold.com', 'localhost', '127.0.0.1', 'django-svelte-poetry-fly.fly.dev']
 
 CSRF_TRUSTED_ORIGINS = ['https://django-svelte-poetry-fly.fly.dev']  # <-- Updated!
 

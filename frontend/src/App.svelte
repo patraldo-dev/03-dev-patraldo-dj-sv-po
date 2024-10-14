@@ -1,6 +1,8 @@
 <script>
+        let src = '/image.gif';
 	export let name;
 </script>
+<img {src} alt="{name} dances." />
 
 <main>
 	<h1>¡Hola {name}!</h1>
